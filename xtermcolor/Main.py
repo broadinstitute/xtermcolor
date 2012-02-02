@@ -1,13 +1,12 @@
 import sys, argparse
-from xtermcolor.ColorMap import XTermColorMap
+from xtermcolor.ColorMap import XTermColorMap, VT100ColorMap
 
 def cPrintfString(xterm):
   return '"\\033[38;5;{xterm:d}m%s\\033[0m"'.format(xterm=xterm)
 
 def Cli():
   parser = argparse.ArgumentParser(
-              description = 'xtermcolor: 256 terminal color library',
-              epilog = '(c) 2012 Scott Frazer')
+              description = 'xtermcolor: 256 terminal color library')
 
   parser.add_argument('action',
               choices = ['convert', 'list'],
@@ -16,9 +15,22 @@ def Cli():
   parser.add_argument('--color',
               help = 'Color to convert')
 
+  parser.add_argument('--compat',
+              choices=['xterm', 'vt100'],
+              default='xterm',
+              help = 'Compatibility mode.  Defaults to xterm.')
+
   cli = parser.parse_args()
+
+  if cli.compat.lower() not in ['xterm', 'vt100']:
+    sys.stderr.write('Error: --compat must be xterm or vt100\n')
+    sys.exit(-1)
   
-  colorMap = XTermColorMap()
+  if cli.compat.lower() == 'xterm':
+    colorMap = XTermColorMap()
+  if cli.compat.lower() == 'vt100':
+    colorMap = VT100ColorMap()
+
   if cli.action == 'list':
     for xterm, hexcolor in colorMap.getColors().items():
       string = "\033[38;5;{xterm:d}mansi={xterm:d}; rgb=#{hexcolor:06x}; printf={cprintf:s}\033[0m"
