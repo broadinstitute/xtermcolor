@@ -1,9 +1,11 @@
-import distribute_setup, os
+import os
+
+from xtermcolor import distribute_setup
 distribute_setup.use_setuptools()
 
 from setuptools import setup
 
-version = '1.0.2'
+version = '1.0.3'
 README = os.path.join(os.path.dirname(__file__), 'README')
 long_description = open(README).read()
 
@@ -14,7 +16,7 @@ setup(
   author='Scott Frazer',
   author_email='sfrazer@broadinstitute.org',
   packages=['xtermcolor'],
-  package_dir={'xtermcolor': 'xtermcolor'},
+  package_data={'xtermcolor': ['distribute_setup.py']},
   install_requires=[],
   entry_points={
     'console_scripts': [
