@@ -26,9 +26,9 @@ class TerminalColorMap:
     if rgb is not None and ansi is not None:
       raise TerminalColorMapException('colorize: must specify only one named parameter: rgb or ansi')
 
-    if rgb:
+    if rgb is not None:
       (closestAnsi, closestRgb) = self.convert(rgb)
-    elif ansi:
+    elif ansi is not None:
       (closestAnsi, closestRgb) = (ansi, self.colors[ansi])
 
     return "\033[38;5;{ansiCode:d}m{string:s}\033[0m".format(ansiCode=closestAnsi, string=string)
