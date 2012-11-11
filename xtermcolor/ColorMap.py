@@ -20,18 +20,26 @@ class TerminalColorMap:
     minDiffAnsi = diffs[min(diffs.keys())]
     return (minDiffAnsi, self.colors[minDiffAnsi])
 
-  def colorize(self, string, rgb=None, ansi=None):
+  def colorize(self, string, rgb=None, ansi=None,bg=None,ansi_bg=None):
     if rgb is None and ansi is None:
       raise TerminalColorMapException('colorize: must specify one named parameter: rgb or ansi')
     if rgb is not None and ansi is not None:
       raise TerminalColorMapException('colorize: must specify only one named parameter: rgb or ansi')
-
-    if rgb is not None:
+    
+    if rgb:
       (closestAnsi, closestRgb) = self.convert(rgb)
-    elif ansi is not None:
+    elif ansi:
       (closestAnsi, closestRgb) = (ansi, self.colors[ansi])
+    
+    if bg == None and ansi_bg == None:
+        return "\033[38;5;{ansiCode:d}m{string:s}\033[0m".format(ansiCode=closestAnsi, string=string)
+    
+    if bg:
+        (closestBgAnsi,unused) = self.convert(bg)
+    elif ansi_bg:
+        (closestBgAnsi,unused) = (ansi_bg, self.colors[ansi_bg])
 
-    return "\033[38;5;{ansiCode:d}m{string:s}\033[0m".format(ansiCode=closestAnsi, string=string)
+    return u"\033[38;5;{ansiCode:d}m\033[48;5;{bf:d}m{string:s}\033[0m".format(ansiCode=closestAnsi,bf=closestBgAnsi, string=string)
 
 class VT100ColorMap(TerminalColorMap):
   primary = [
