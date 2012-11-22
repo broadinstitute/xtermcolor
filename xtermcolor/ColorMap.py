@@ -41,7 +41,7 @@ class TerminalColorMap:
     elif ansi_bg != None:
         (closestBgAnsi,unused) = (ansi_bg, self.colors[ansi_bg])
 
-    return u"\033[38;5;{ansiCode:d}m\033[48;5;{bf:d}m{string:s}\033[0m".format(ansiCode=closestAnsi,bf=closestBgAnsi, string=string)
+    return "\033[38;5;{ansiCode:d}m\033[48;5;{bf:d}m{string:s}\033[0m".format(ansiCode=closestAnsi,bf=closestBgAnsi, string=string)
 
 class VT100ColorMap(TerminalColorMap):
   primary = [
