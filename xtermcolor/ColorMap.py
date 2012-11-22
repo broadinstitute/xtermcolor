@@ -63,17 +63,17 @@ def colorize(string, rgb=None, ansi=None,bg=None,ansi_bg=None):
       _compute()
       pass
   
-  if rgb:
+  if rgb != None:
     (closestAnsi, closestRgb) = _convert(rgb)
-  elif ansi:
+  elif ansi != None:
     (closestAnsi, closestRgb) = (ansi, colors[ansi])
   
   if bg == None and ansi_bg == None:
       return "\033[38;5;{ansiCode:d}m{string:s}\033[0m".format(ansiCode=closestAnsi, string=string)
   
-  if bg:
+  if bg != None:
       (closestBgAnsi,unused) = _convert(bg)
-  elif ansi_bg:
+  elif ansi_bg != None:
       (closestBgAnsi,unused) = (ansi_bg, colors[ansi_bg])
 
   return u"\033[38;5;{ansiCode:d}m\033[48;5;{bf:d}m{string:s}\033[0m".format(ansiCode=closestAnsi,bf=closestBgAnsi, string=string)
