@@ -1,22 +1,22 @@
 class TerminalColorMapException(Exception):
   pass
 
+def rgb(color):
+  return ((color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff)
+
+def diff(color1, color2):
+  (r1, g1, b1) = rgb(color1)
+  (r2, g2, b2) = rgb(color2)
+  return abs(r1-r2) + abs(g1-g2) + abs(b1-b2)
+    
 class TerminalColorMap:
   def getColors(self, order='rgb'):
     return self.colors
 
-  def rgb(self, color):
-    return ((color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff)
-
-  def diff(self, color1, color2):
-    (r1, g1, b1) = self.rgb(color1)
-    (r2, g2, b2) = self.rgb(color2)
-    return abs(r1-r2) + abs(g1-g2) + abs(b1-b2)
-
   def convert(self, hexcolor):
     diffs = {}
     for xterm, rgb in self.colors.items():
-      diffs[self.diff(rgb, hexcolor)] = xterm
+      diffs[diff(rgb, hexcolor)] = xterm
     minDiffAnsi = diffs[min(diffs.keys())]
     return (minDiffAnsi, self.colors[minDiffAnsi])
 
