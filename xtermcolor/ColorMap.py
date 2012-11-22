@@ -25,6 +25,8 @@ class TerminalColorMap:
       raise TerminalColorMapException('colorize: must specify one named parameter: rgb or ansi')
     if rgb is not None and ansi is not None:
       raise TerminalColorMapException('colorize: must specify only one named parameter: rgb or ansi')
+    if bg is not None and ansi_bg is not None:
+      raise TerminalColorMapException('colorize: must specify only one named parameter: bg or ansi_bg')
     
     if rgb:
       (closestAnsi, closestRgb) = self.convert(rgb)
