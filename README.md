@@ -35,8 +35,7 @@ Python Module Usage
 ===================
 
 ```python
->>> from xtermcolor.ColorMap import XTermColorMap, VT100ColorMap
->>> cmap = XTermColorMap()
->>> print(cmap.colorize('Hello World', 0x00ffec))
+>>> import xtermcolor
+>>> print(xtermcolor.colorize('Hello World', 0x00ffec))
 Hello World
 ```

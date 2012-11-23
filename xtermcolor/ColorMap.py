@@ -1,45 +1,49 @@
 class TerminalColorMapException(Exception):
   pass
 
+def _rgb(color):
+  return ((color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff)
+
+def _diff(color1, color2):
+  (r1, g1, b1) = _rgb(color1)
+  (r2, g2, b2) = _rgb(color2)
+  return abs(r1-r2) + abs(g1-g2) + abs(b1-b2)
+    
 class TerminalColorMap:
   def getColors(self, order='rgb'):
     return self.colors
 
-  def rgb(self, color):
-    return ((color >> 16) & 0xff, (color >> 8) & 0xff, color & 0xff)
-
-  def diff(self, color1, color2):
-    (r1, g1, b1) = self.rgb(color1)
-    (r2, g2, b2) = self.rgb(color2)
-    return abs(r1-r2) + abs(g1-g2) + abs(b1-b2)
-
   def convert(self, hexcolor):
     diffs = {}
     for xterm, rgb in self.colors.items():
-      diffs[self.diff(rgb, hexcolor)] = xterm
+      diffs[_diff(rgb, hexcolor)] = xterm
     minDiffAnsi = diffs[min(diffs.keys())]
     return (minDiffAnsi, self.colors[minDiffAnsi])
 
   def colorize(self, string, rgb=None, ansi=None,bg=None,ansi_bg=None):
+    if not isinstance(string,str):
+        raise TerminalColorMapException('String is not of <str> type')
     if rgb is None and ansi is None:
       raise TerminalColorMapException('colorize: must specify one named parameter: rgb or ansi')
     if rgb is not None and ansi is not None:
       raise TerminalColorMapException('colorize: must specify only one named parameter: rgb or ansi')
+    if bg is not None and ansi_bg is not None:
+      raise TerminalColorMapException('colorize: must specify only one named parameter: bg or ansi_bg')
     
-    if rgb:
+    if rgb != None:
       (closestAnsi, closestRgb) = self.convert(rgb)
-    elif ansi:
+    elif ansi != None:
       (closestAnsi, closestRgb) = (ansi, self.colors[ansi])
     
     if bg == None and ansi_bg == None:
         return "\033[38;5;{ansiCode:d}m{string:s}\033[0m".format(ansiCode=closestAnsi, string=string)
     
-    if bg:
+    if bg != None:
         (closestBgAnsi,unused) = self.convert(bg)
-    elif ansi_bg:
+    elif ansi_bg != None:
         (closestBgAnsi,unused) = (ansi_bg, self.colors[ansi_bg])
 
-    return u"\033[38;5;{ansiCode:d}m\033[48;5;{bf:d}m{string:s}\033[0m".format(ansiCode=closestAnsi,bf=closestBgAnsi, string=string)
+    return "\033[38;5;{ansiCode:d}m\033[48;5;{bf:d}m{string:s}\033[0m".format(ansiCode=closestAnsi,bf=closestBgAnsi, string=string)
 
 class VT100ColorMap(TerminalColorMap):
   primary = [
