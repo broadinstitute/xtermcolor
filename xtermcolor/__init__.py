@@ -22,6 +22,7 @@ def colorize(string, rgb=None, ansi=None,bg=None,ansi_bg=None,fd=1):
     #Reinitializes if fd used is different
     if colorize.fd != fd:
         colorize.init = False
+        colorize.fd = fd
     
     #Checks if it is on a terminal, and if the terminal is recognized
     if not colorize.init:
