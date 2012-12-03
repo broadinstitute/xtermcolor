@@ -21,6 +21,7 @@ class TerminalColorMap:
     return (minDiffAnsi, self.colors[minDiffAnsi])
 
   def colorize(self, string, rgb=None, ansi=None,bg=None,ansi_bg=None):
+    '''Returns the colored string'''
     if not isinstance(string,str):
         raise TerminalColorMapException('String is not of <str> type')
     if rgb is None and ansi is None:
