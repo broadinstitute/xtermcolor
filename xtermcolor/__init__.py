@@ -32,7 +32,7 @@ def colorize(string, rgb=None, ansi=None,bg=None,ansi_bg=None,fd=1):
             if environ['TERM'] == 'xterm':
                 colorize.cmap = XTermColorMap()
             elif environ['TERM'] == 'vt100':
-                colorize.xterm = VT100ColorMap()
+                colorize.cmap = VT100ColorMap()
             else:
                 colorize.is_term = False
         else:
