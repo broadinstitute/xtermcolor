@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys, argparse
 from xtermcolor.ColorMap import XTermColorMap, VT100ColorMap
 
@@ -50,3 +51,6 @@ def Cli():
           start=cli.color, closest=rgb, ansi=ansi))
     print("Example: " + colorizedMsg)
     print("printf() string: " + cPrintfString(ansi))
+
+if __name__=='__main__':
+    Cli()
