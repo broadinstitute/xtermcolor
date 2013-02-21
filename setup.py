@@ -1,28 +1,18 @@
 import os
 
-from xtermcolor import distribute_setup
-distribute_setup.use_setuptools()
-
-from setuptools import setup
+from distutils.core import setup
 
 version = '1.2'
 README = os.path.join(os.path.dirname(__file__), 'README')
-long_description = open(README).read()
 
 setup(
   name='xtermcolor',
   version=version,
-  description=long_description,
+  description='Python module for colorizing output with xterm 256 color support',
   author='Scott Frazer',
   author_email='sfrazer@broadinstitute.org',
   packages=['xtermcolor'],
-  package_data={'xtermcolor': ['distribute_setup.py']},
-  install_requires=[],
-  entry_points={
-    'console_scripts': [
-      'xtermcolor = xtermcolor.Main:Cli'
-    ]
-  },
+  scripts=['scripts/xtermcolor'],
   license = "MIT",
   keywords = "xterm, ANSI, xterm-256, terminal, color",
   url = "http://github.com/broadinstitute/xtermcolor",
