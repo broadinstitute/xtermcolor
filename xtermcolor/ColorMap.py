@@ -23,7 +23,7 @@ class TerminalColorMap:
   def colorize(self, string, rgb=None, ansi=None,bg=None,ansi_bg=None):
     '''Returns the colored string'''
     if not isinstance(string,str):
-        raise TerminalColorMapException('String is not of <str> type')
+        string = str(string)
     if rgb is None and ansi is None:
       raise TerminalColorMapException('colorize: must specify one named parameter: rgb or ansi')
     if rgb is not None and ansi is not None:
