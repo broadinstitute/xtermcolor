@@ -55,9 +55,9 @@ Simply import the `colorize` function from the `xtermcolor` module.  `colorize()
 * `rgb` - String of the RGB color value to color the text as.
 * `ansi` - Integer value of the ANSI color code.
 * `bg` - String of the RGB color value for the background color.
-* `bg_ansi` - Integer value of ANSI color code for background color.
+* `ansi_bg` - Integer value of ANSI color code for background color.
 * `fd` - File descriptor that will be used to print the text.  Defaults to stdout.
 
-arguments `rgb` and `ansi` are mutually exclusive, as are `bg` and `bg_ansi`.
+arguments `rgb` and `ansi` are mutually exclusive, as are `bg` and `ansi_bg`.
 
 ![xtermcolor module](https://github.com/broadinstitute/xtermcolor/raw/master/img/module.png)
